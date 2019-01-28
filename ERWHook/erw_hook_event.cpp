@@ -1,19 +1,28 @@
-#include "ERWHook.h"
 #include <iostream>
 #include <Windows.h>
+#include "erw_hook_event.h"
+#include "function_arguments.h"
 
+static void hook(uint64_t* stackptr, const execute_dlg exec)
+{
+	const function_arguments args{ stackptr };
+	exec(args);
+}
 
-ERWHook::ERWHook(void* target, void* redirect)
+erw_hook_event::erw_hook_event(void* target, execute_dlg redirect)
 {
 	hook_swap_ = new byte[0x10];
 	return_to_ = new byte[0x8];
 	trampoline_ = reinterpret_cast<byte*>(VirtualAlloc(nullptr, 0x1000, 0x00001000, 0x4));
 	restore_trampoline_ = reinterpret_cast<byte*>(VirtualAlloc(nullptr, 0x1000, 0x00001000, 0x4));
 
+	auto hook_addr = reinterpret_cast<void*>(hook);
+
 	const auto hook_swap_addr_bytes = reinterpret_cast<byte*>(&hook_swap_);
 	const auto return_to_addr_bytes = reinterpret_cast<byte*>(&return_to_);
 	const auto target_addr_bytes = reinterpret_cast<byte*>(&target);
 	const auto restore_addr_bytes = reinterpret_cast<byte*>(&restore_trampoline_);
+	const auto hook_addr_bytes = reinterpret_cast<byte*>(&hook_addr);
 	const auto redirect_addr_bytes = reinterpret_cast<byte*>(&redirect);
 	const auto trampoline_addr_bytes = reinterpret_cast<byte*>(&trampoline_);
 
@@ -157,14 +166,11 @@ ERWHook::ERWHook(void* target, void* redirect)
 		0x41, 0x50,
 		// push r9
 		0x41, 0x51,
-		// push rbx
-		0x53,
-		// hook call preparation
-		// sub rsp, 0x20	(x64 shadow space)
-		0x48, 0x83, 0xEC, 0x20,
-		// mov rax, target_addr
-		0x48,
-		0xB8,
+
+		// mov rcx, rsp
+		0x48, 0x89, 0xE1,
+		// mov rdx, redirect
+		0x48, 0xBA,
 		redirect_addr_bytes[0],
 		redirect_addr_bytes[1],
 		redirect_addr_bytes[2],
@@ -173,6 +179,24 @@ ERWHook::ERWHook(void* target, void* redirect)
 		redirect_addr_bytes[5],
 		redirect_addr_bytes[6],
 		redirect_addr_bytes[7],
+
+
+		// push rbx
+		0x53,
+		// hook call preparation
+		// sub rsp, 0x20	(x64 shadow space)
+		0x48, 0x83, 0xEC, 0x20,
+		// mov rax, target_addr
+		0x48,
+		0xB8,
+		hook_addr_bytes[0],
+		hook_addr_bytes[1],
+		hook_addr_bytes[2],
+		hook_addr_bytes[3],
+		hook_addr_bytes[4],
+		hook_addr_bytes[5],
+		hook_addr_bytes[6],
+		hook_addr_bytes[7],
 		// calling hook
 		// call rax
 		0xff, 0xd0,
@@ -274,7 +298,7 @@ ERWHook::ERWHook(void* target, void* redirect)
 	VirtualProtect(restore_trampoline_, 0x1000, 0x20, &old_protect);
 }
 
-ERWHook::~ERWHook()
+erw_hook_event::~erw_hook_event()
 {
 	delete[] hook_swap_;
 	delete[] return_to_;

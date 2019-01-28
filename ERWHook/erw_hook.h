@@ -2,7 +2,7 @@
 #include <memory>
 #include "byte.h"
 
-class ERWHook
+class erw_hook
 {
 private:
 	byte* trampoline_;
@@ -11,7 +11,7 @@ private:
 	byte* return_to_;
 
 public:
-	ERWHook(void* target, void* redirect);
-	ERWHook(const ERWHook& copy) = delete;
-	~ERWHook();
+	erw_hook(void* target, void* redirect);
+	erw_hook(const erw_hook& copy) = delete;
+	~erw_hook();
 };

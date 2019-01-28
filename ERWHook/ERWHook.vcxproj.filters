@@ -15,27 +15,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ERWHook.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="byte.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FunctionArguments.h">
+    <ClInclude Include="erw_hook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ERWHookEvent.h">
+    <ClInclude Include="erw_hook_event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="function_arguments.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ERWHook.cpp">
+    <ClCompile Include="erw_hook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FunctionArguments.cpp">
+    <ClCompile Include="erw_hook_event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ERWHookEvent.cpp">
+    <ClCompile Include="function_arguments.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
