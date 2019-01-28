@@ -21,9 +21,21 @@
     <ClInclude Include="byte.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FunctionArguments.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ERWHookEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ERWHook.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FunctionArguments.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ERWHookEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

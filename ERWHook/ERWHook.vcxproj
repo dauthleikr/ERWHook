@@ -149,9 +149,13 @@
   <ItemGroup>
     <ClInclude Include="byte.h" />
     <ClInclude Include="ERWHook.h" />
+    <ClInclude Include="ERWHookEvent.h" />
+    <ClInclude Include="FunctionArguments.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ERWHook.cpp" />
+    <ClCompile Include="ERWHookEvent.cpp" />
+    <ClCompile Include="FunctionArguments.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
