@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="byte.h" />
     <ClInclude Include="ERWHook.h" />
   </ItemGroup>
   <ItemGroup>
